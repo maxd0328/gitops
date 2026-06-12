@@ -9,7 +9,7 @@ base:
         instances: {{ .replicas }}
         storage:
           size: {{ .storageSize }}
-          storageClass: longhorn
+          storageClass: local-path
         managed:
           roles:
             - name: keycloak
