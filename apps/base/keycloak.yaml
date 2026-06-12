@@ -11,7 +11,7 @@ base:
       database:
         external:
           vendor: postgres
-          host: db-cluster.{{ .Release.Namespace }}.svc.cluster.local
+          host: db-cluster-rw.{{ .Release.Namespace }}.svc.cluster.local
           name: keycloak
           username: keycloak
           existingSecret: keycloak-db-user
