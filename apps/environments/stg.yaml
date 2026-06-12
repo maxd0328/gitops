@@ -1,6 +1,7 @@
 config:
   gitopsTool: argo
   gitopsNamespace: argocd
+  prefix: stg
   commonChart:
     repoURL: devops.derbserv.hq/_git/charts
     path: gitops/
