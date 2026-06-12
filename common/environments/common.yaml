@@ -13,12 +13,12 @@ environment:
       namespace: cloudnative-pg
       chart:
         repoURL: https://cloudnative-pg.github.io/charts
-        chart: cloudnative-pg
+        name: cloudnative-pg
         version: 0.28.3
 
     secret-generator:
       namespace: secret-generator
       chart:
         repoURL: https://helm.mittwald.de
-        chart: kubernetes-secret-generator
+        name: kubernetes-secret-generator
         version: 3.4.1

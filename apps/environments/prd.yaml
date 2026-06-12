@@ -12,7 +12,7 @@ environment:
     keycloak:
       chart:
         repoURL: https://repo.helmforge.dev
-        chart: keycloak
+        name: keycloak
         version: 3.0.3
       replicas: 1
       hostname: iam.derbserv.hq
