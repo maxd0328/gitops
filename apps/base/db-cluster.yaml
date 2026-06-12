@@ -26,7 +26,8 @@ base:
         name: keycloak-db-user
         labels:
           cnpg.io/reload: 'true'
+        annotations:
           secret-generator.v1.mittwald.de/autogenerate: password
       type: kubernetes.io/basic-auth
       data:
-        username: keycloak
+        username: {{ "keycloak" | b64enc }}
