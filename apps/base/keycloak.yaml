@@ -22,9 +22,9 @@ base:
       apiVersion: postgresql.cnpg.io/v1
       kind: Database
       metadata:
-        name: keycloak-db
+        name: keycloak
       spec:
-        name: keycloak-db
+        name: keycloak
         owner: keycloak
         cluster:
           name: db-cluster
