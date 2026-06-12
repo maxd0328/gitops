@@ -1,0 +1,23 @@
+config:
+  gitopsTool: argo
+  gitopsNamespace: argocd
+  commonChart:
+    repoURL: devops.derbserv.hq/_git/charts
+    path: gitops/
+    version: HEAD
+
+environment:
+  apps:
+    cloudnative-pg:
+      namespace: cloudnative-pg
+      chart:
+        repoURL: https://cloudnative-pg.github.io/charts
+        chart: cloudnative-pg
+        version: 0.28.3
+
+    secret-generator:
+      namespace: secret-generator
+      chart:
+        repoURL: https://helm.mittwald.de
+        chart: kubernetes-secret-generator
+        version: 3.4.1

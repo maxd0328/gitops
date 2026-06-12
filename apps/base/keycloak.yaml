@@ -1,0 +1,29 @@
+base:
+  apps:
+    keycloak: |
+      mode: production
+
+      replicaCount: {{ .replicas }}
+
+      hostname:
+        hostname: {{ .hostname }}
+
+      database:
+        external:
+          vendor: postgres
+          host: db-cluster.{{ .Release.Namespace }}.svc.cluster.local
+          name: keycloak
+          username: keycloak
+          existingSecret: keycloak-db-user
+
+  extras:
+    keycloak-db: |
+      apiVersion: postgresql.cnpg.io/v1
+      kind: Database
+      metadata:
+        name: keycloak-db
+      spec:
+        name: keycloak-db
+        owner: keycloak
+        cluster:
+          name: db-cluster

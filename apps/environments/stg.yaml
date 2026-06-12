@@ -1,0 +1,17 @@
+config:
+  gitopsTool: argo
+  gitopsNamespace: argocd
+  commonChart:
+    repoURL: devops.derbserv.hq/_git/charts
+    path: gitops/
+    version: HEAD
+
+environment:
+  apps:
+    keycloak:
+      chart:
+        repoURL: https://repo.helmforge.dev
+        chart: keycloak
+        version: 3.0.3
+      replicas: 1
+      hostname: iam.stg.derbserv.hq

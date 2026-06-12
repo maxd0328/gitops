@@ -1,0 +1,32 @@
+base:
+  extras:
+    db-cluster: |
+      apiVersion: postgresql.cnpg.io/v1
+      kind: Cluster
+      metadata:
+        name: db-cluster
+      spec:
+        instances: {{ .replicas }}
+        storage:
+          size: {{ .storageSize }}
+          storageClass: longhorn
+        managed:
+          roles:
+            - name: keycloak
+              ensure: present
+              login: true
+              superuser: false
+              passwordSecret:
+                name: keycloak-db-user
+
+    keycloak-db-user-secret: |
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: keycloak-db-user
+        labels:
+          cnpg.io/reload: 'true'
+          secret-generator.v1.mittwald.de/autogenerate: password
+      type: kubernetes.io/basic-auth
+      data:
+        username: keycloak
