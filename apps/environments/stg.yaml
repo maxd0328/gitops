@@ -8,16 +8,11 @@ config:
     version: HEAD
 
 environment:
-  apps:
+  extras:
     keycloak:
-      chart:
-        repoURL: https://repo.helmforge.dev
-        name: keycloak
-        version: 3.0.3
       replicas: 1
       hostname: iam.stg.derbserv.hq
 
-  extras:
     db-cluster:
       replicas: 1
       storageSize: 500Mi

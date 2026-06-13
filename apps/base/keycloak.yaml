@@ -1,23 +1,27 @@
 base:
-  apps:
+  extras:
     keycloak: |
-      mode: production
-
-      replicaCount: {{ .replicas }}
-
-      hostname:
-        hostname: {{ .hostname }}
-
-      database:
-        external:
+      apiVersion: k8s.keycloak.org/v2beta1
+      kind: Keycloak
+      metadata:
+        name: keycloak
+      spec:
+        instances: {{ .replicas }}
+        db:
           vendor: postgres
           host: db-cluster-rw.{{ .Release.Namespace }}.svc.cluster.local
           name: keycloak
-          username: keycloak
-          existingSecret: keycloak-db-user
-          existingSecretPasswordKey: password
+          usernameSecret:
+            name: keycloak-db-user
+            key: username
+          passwordSecret:
+            name: keycloak-db-user
+            key: password
+          # http:
+          #   tlsSecret: insert-tls-secret
+          hostname:
+            hostname: {{ .hostname }}
 
-  extras:
     keycloak-db: |
       apiVersion: postgresql.cnpg.io/v1
       kind: Database

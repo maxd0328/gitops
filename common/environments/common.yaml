@@ -22,3 +22,10 @@ environment:
         repoURL: https://helm.mittwald.de
         name: kubernetes-secret-generator
         version: 3.4.1
+
+    keycloak-operator:
+      namespace: keycloak
+      chart:
+        repoURL: https://github.com/maxd0328/gitops.git
+        path: keycloak-operator/
+        version: HEAD
