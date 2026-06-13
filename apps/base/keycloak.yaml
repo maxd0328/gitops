@@ -24,6 +24,8 @@ base:
           enabled: false
         hostname:
           hostname: {{ .hostname }}
+        proxy:
+          headers: xforwarded
 
     keycloak-db: |
       apiVersion: postgresql.cnpg.io/v1
