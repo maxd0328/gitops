@@ -20,6 +20,8 @@ base:
         http:
           httpEnabled: true
           # tlsSecret: insert-tls-secret
+        ingress:
+          enabled: false
         hostname:
           hostname: {{ .hostname }}
 
