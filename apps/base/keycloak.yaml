@@ -17,8 +17,9 @@ base:
           passwordSecret:
             name: keycloak-db-user
             key: password
-          # http:
-          #   tlsSecret: insert-tls-secret
+        http:
+          httpEnabled: true
+          # tlsSecret: insert-tls-secret
         hostname:
           hostname: {{ .hostname }}
 
