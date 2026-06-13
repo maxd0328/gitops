@@ -26,6 +26,6 @@ environment:
     keycloak-operator:
       namespace: keycloak
       chart:
-        repoURL: https://github.com/maxd0328/gitops.git
+        repoURL: https://github.com/maxd0328/charts.git
         path: keycloak-operator/
         version: HEAD
