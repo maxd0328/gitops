@@ -19,9 +19,6 @@ base:
             key: password
         http:
           httpEnabled: true
-          # tlsSecret: insert-tls-secret
-        ingress:
-          enabled: false
         hostname:
           hostname: {{ .hostname }}
         proxy:
@@ -37,3 +34,15 @@ base:
         owner: keycloak
         cluster:
           name: db-cluster
+
+    keycloak-realm: |
+      apiVersion: k8s.keycloak.org/v2beta1
+      kind: KeycloakRealmImport
+      metadata:
+        name: realm
+      spec:
+        keycloakCRName: keycloak
+        realm:
+          realm: derbserv
+          displayName: Derbserv
+          enabled: true
