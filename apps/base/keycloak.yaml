@@ -20,7 +20,7 @@ base:
         http:
           httpEnabled: true
         hostname:
-          hostname: {{ .hostname }}
+          hostname: {{ .global.hostnames.iam }}
         proxy:
           headers: xforwarded
 
@@ -35,14 +35,3 @@ base:
         cluster:
           name: db-cluster
 
-    keycloak-realm: |
-      apiVersion: k8s.keycloak.org/v2beta1
-      kind: KeycloakRealmImport
-      metadata:
-        name: realm
-      spec:
-        keycloakCRName: keycloak
-        realm:
-          realm: derbserv
-          displayName: Derbserv
-          enabled: true

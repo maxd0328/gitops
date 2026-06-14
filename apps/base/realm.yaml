@@ -1,0 +1,89 @@
+base:
+  extras:
+    keycloak-realm: |
+      apiVersion: k8s.keycloak.org/v2beta1
+      kind: KeycloakRealmImport
+      metadata:
+        name: realm
+      spec:
+        keycloakCRName: keycloak
+        realm:
+          realm: derbserv
+          displayName: Derbserv
+          enabled: true
+
+          groups:
+            {{- if .global.argocd-oidc }}
+            - name: argocd-admins
+            - name: argocd-viewers
+            {{- end }}
+
+          clientScopes:
+            - name: groups
+              protocol: openid-connect
+              protocolMappers:
+                - name: groups
+                  protocol: openid-connect
+                  protocolMapper: oidc-group-membership-mapper
+                  config:
+                    claim.name: groups
+                    full.path: 'false'
+                    id.token.claim: 'true'
+                    access.token.claim: 'true'
+                    userinfo.token.claim: 'true'
+
+          clients:
+            {{- if .global.argocd-oidc }}
+            - clientId: argocd
+              name: Argo CD
+              enabled: true
+
+              protocol: openid-connect
+              publicClient: false
+              standardFlowEnabled: true
+              directAccessGrantsEnabled: false
+
+              redirectUris:
+                - http://{{ .global.hostnames.argocd }}/auth/callback
+              webOrigins:
+                - http://{{ .global.hostnames.argocd }}
+
+              defaultClientScopes:
+                - profile
+                - email
+                - roles
+                - groups
+
+              secret:
+                valueFrom:
+                  secretKeyRef:
+                    name: argocd-client-creds
+                    key: clientSecret
+            {{- end }}
+    
+    argocd-client-creds: |
+      {{- if .global.argocd-oidc }}
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: argocd-client-creds
+        annotations:
+          secret-generator.v1.mittwald.de/autogenerate: clientSecret
+          reflector.v1.k8s.emberstack.com/reflection-allowed: 'true'
+          reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: 'argocd'
+      type: Opaque
+      data:
+        clientId: {{ "argocd" | b64enc }}
+      {{- end }}
+
+    argocd-client-creds-mirror: |
+      {{- if .global.argocd-oidc }}
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: argocd-client-creds
+        namespace: argocd
+        annotations:
+          reflector.v1.k8s.emberstack.com/reflects: '{{ .Release.Namespace }}/argocd-client-creds'
+      type: Opaque
+      {{- end }}
