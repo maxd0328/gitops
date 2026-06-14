@@ -17,7 +17,7 @@ environment:
       storageSize: 500Mi
 
   global:
-    argocd-oidc: true
+    argocd_oidc: true
     hostnames:
       argocd: argocd.derbserv.hq
       iam: iam.derbserv.hq
