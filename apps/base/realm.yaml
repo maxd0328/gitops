@@ -91,5 +91,7 @@ base:
         namespace: argocd
         annotations:
           reflector.v1.k8s.emberstack.com/reflects: '{{ .Release.Namespace }}/argocd-client-creds'
+        labels:
+          app.kubernetes.io/part-of: argocd
       type: Opaque
       {{- end }}
