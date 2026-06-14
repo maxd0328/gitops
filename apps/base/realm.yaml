@@ -13,7 +13,7 @@ base:
           enabled: true
 
           groups:
-            {{- if .global.argocd-oidc }}
+            {{- if .global.argocd_oidc }}
             - name: argocd-admins
             - name: argocd-viewers
             {{- end }}
@@ -33,7 +33,7 @@ base:
                     userinfo.token.claim: 'true'
 
           clients:
-            {{- if .global.argocd-oidc }}
+            {{- if .global.argocd_oidc }}
             - clientId: argocd
               name: Argo CD
               enabled: true
@@ -62,7 +62,7 @@ base:
             {{- end }}
     
     argocd-client-creds: |
-      {{- if .global.argocd-oidc }}
+      {{- if .global.argocd_oidc }}
       apiVersion: v1
       kind: Secret
       metadata:
@@ -77,7 +77,7 @@ base:
       {{- end }}
 
     argocd-client-creds-mirror: |
-      {{- if .global.argocd-oidc }}
+      {{- if .global.argocd_oidc }}
       apiVersion: v1
       kind: Secret
       metadata:
