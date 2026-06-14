@@ -45,8 +45,8 @@ base:
 
           clients:
             {{- if .global.argocd_oidc }}
-            - clientId: $(ARGOCD_CLIENT_ID)
-              secret: $(ARGOCD_CLIENT_SECRET)
+            - clientId: ${ARGOCD_CLIENT_ID}
+              secret: ${ARGOCD_CLIENT_SECRET}
               name: Argo CD
               enabled: true
 
