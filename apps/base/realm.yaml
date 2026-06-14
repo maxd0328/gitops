@@ -7,6 +7,17 @@ base:
         name: realm
       spec:
         keycloakCRName: keycloak
+
+        placeholders:
+          ARGOCD_CLIENT_ID:
+            secret:
+              name: argocd-client-creds
+              key: clientId
+          ARGOCD_CLIENT_SECRET:
+            secret:
+              name: argocd-client-creds
+              key: clientSecret
+
         realm:
           realm: derbserv
           displayName: Derbserv
@@ -34,7 +45,8 @@ base:
 
           clients:
             {{- if .global.argocd_oidc }}
-            - clientId: argocd
+            - clientId: $(ARGOCD_CLIENT_ID)
+              secret: $(ARGOCD_CLIENT_SECRET)
               name: Argo CD
               enabled: true
 
@@ -53,12 +65,6 @@ base:
                 - email
                 - roles
                 - groups
-
-              secret:
-                valueFrom:
-                  secretKeyRef:
-                    name: argocd-client-creds
-                    key: clientSecret
             {{- end }}
     
     argocd-client-creds: |
