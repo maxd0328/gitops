@@ -31,7 +31,7 @@ base:
 
           clientScopes:
             - name: email
-              description: OpenID Connect built-in scope: email
+              description: 'OpenID Connect built-in scope: email'
               protocol: openid-connect
               attributes:
                 include.in.token.scope: 'true'
@@ -61,7 +61,7 @@ base:
                     claim.name: email_verified
                     jsonType.label: boolean
             - name: profile
-              description: OpenID Connect built-in scope: profile
+              description: 'OpenID Connect built-in scope: profile'
               protocol: openid-connect
               attributes:
                 include.in.token.scope: 'true'
