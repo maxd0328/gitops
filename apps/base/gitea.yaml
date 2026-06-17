@@ -38,7 +38,9 @@ base:
       ingress:
         enabled: true
         hosts:
-          - {{ .global.hostnames.devops }}
+          - host: {{ .global.hostnames.devops }}
+            paths:
+              - path: /
 
       postgresql:
         enabled: false
