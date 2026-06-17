@@ -29,7 +29,7 @@ base:
               secretKeyRef:
                 name: gitea-db-user
                 key: username
-          - name: GITEA__DATABASE_PASSWD
+          - name: GITEA__DATABASE__PASSWD
             valueFrom:
               secretKeyRef:
                 name: gitea-db-user
