@@ -47,3 +47,21 @@ base:
 
       postgresql-ha:
         enabled: false
+
+      valkey-cluster:
+        enabled: false
+
+      valkey:
+        enabled: true
+
+  extras:
+    gitea-db: |
+      apiVersion: postgresql.cnpg.io/v1
+      kind: Database
+      metadata:
+        name: gitea
+      spec:
+        name: gitea
+        owner: gitea
+        cluster:
+          name: db-cluster

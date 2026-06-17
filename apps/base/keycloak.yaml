@@ -34,4 +34,3 @@ base:
         owner: keycloak
         cluster:
           name: db-cluster
-
