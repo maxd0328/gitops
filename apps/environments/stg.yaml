@@ -3,11 +3,19 @@ config:
   gitopsNamespace: argocd
   prefix: stg
   commonChart:
-    repoURL: devops.derbserv.hq/_git/charts
+    repoURL: https://devops.derbserv.hq/_git/charts
     path: gitops/
     version: HEAD
 
 environment:
+  apps:
+    gitea:
+      chart:
+        repoURL: https://dl.gitea.com/charts
+        name: gitea
+        version: 12.6.0
+      replicas: 1
+
   extras:
     keycloak:
       replicas: 1
@@ -21,3 +29,4 @@ environment:
     hostnames:
       argocd: argocd.derbserv.hq
       iam: iam.stg.derbserv.hq
+      devops: devops.derbserv.hq

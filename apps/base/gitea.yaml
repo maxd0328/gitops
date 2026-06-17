@@ -1,0 +1,47 @@
+base:
+  apps:
+    gitea: |
+      global:
+        replicaCount: {{ .replicas }}
+
+      gitea:
+        config:
+          APP_NAME: DevOps
+          
+          database:
+            DB_TYPE: postgres
+            HOST: db-cluster-rw.{{ .Release.Namespace }}.svc.cluster.local
+            NAME: gitea
+
+        oauth:
+          - name: Derbserv
+            provider: openidConnect
+            existingSecret: devops-client-creds
+            autoDiscoverUrl: https://{{ .global.hostnames.iam }}/realms/derbserv/.well-known/openid-configuration
+            scopes:
+              - openid
+              - profile
+              - email
+
+        additionalConfigFromEnvs:
+          - name: GITEA__DATABASE__USER
+            valueFrom:
+              secretKeyRef:
+                name: gitea-db-user
+                key: username
+          - name: GITEA__DATABASE_PASSWD
+            valueFrom:
+              secretKeyRef:
+                name: gitea-db-user
+                key: password
+
+      ingress:
+        enabled: true
+        hosts:
+          - {{ .global.hostnames.devops }}
+
+      postgresql:
+        enabled: false
+
+      postgresql-ha:
+        enabled: false

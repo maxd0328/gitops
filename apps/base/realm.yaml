@@ -12,11 +12,19 @@ base:
           ARGOCD_CLIENT_ID:
             secret:
               name: argocd-client-creds
-              key: clientId
+              key: key
           ARGOCD_CLIENT_SECRET:
             secret:
               name: argocd-client-creds
-              key: clientSecret
+              key: secret
+          DEVOPS_CLIENT_ID:
+            secret:
+              name: devops-client-creds
+              key: key
+          DEVOPS_CLIENT_SECRET:
+            secret:
+              name: devops-client-creds
+              key: secret
 
         realm:
           realm: derbserv
@@ -168,6 +176,27 @@ base:
                 - roles
                 - groups
             {{- end }}
+
+            - clientId: ${DEVOPS_CLIENT_ID}
+              secret: ${DEVOPS_CLIENT_SECRET}
+              name: DevOps
+              enabled: true
+
+              protocol: openid-connect
+              publicClient: false
+              standardFlowEnabled: true
+              directAccessGrantsEnabled: false
+
+              redirectUris:
+                - https://{{ .global.hostnames.devops }}/user/oauth2/derbserv/callback
+              webOrigins:
+                - https://{{ .global.hostnames.devops }}
+
+              defaultClientScopes:
+                - profile
+                - email
+                - roles
+                - groups
     
     argocd-client-creds: |
       {{- if .global.argocd_oidc }}
@@ -176,12 +205,12 @@ base:
       metadata:
         name: argocd-client-creds
         annotations:
-          secret-generator.v1.mittwald.de/autogenerate: clientSecret
+          secret-generator.v1.mittwald.de/autogenerate: secret
           reflector.v1.k8s.emberstack.com/reflection-allowed: 'true'
           reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: 'argocd'
       type: Opaque
       data:
-        clientId: {{ "argocd" | b64enc }}
+        key: {{ "argocd" | b64enc }}
       {{- end }}
 
     argocd-client-creds-mirror: |
@@ -197,3 +226,14 @@ base:
           app.kubernetes.io/part-of: argocd
       type: Opaque
       {{- end }}
+
+    devops-client-creds: |
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: devops-client-creds
+        annotations:
+          secret-generator.v1.mittwald.de/autogenerate: secret
+      type: Opaque
+      data:
+        key: {{ "devops" | b64enc }}
