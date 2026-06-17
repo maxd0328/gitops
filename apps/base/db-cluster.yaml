@@ -42,7 +42,7 @@ base:
       apiVersion: v1
       kind: Secret
       metadata:
-        name: keycloak-db-user
+        name: gitea-db-user
         labels:
           cnpg.io/reload: 'true'
         annotations:
