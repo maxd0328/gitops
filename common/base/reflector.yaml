@@ -1,3 +1,9 @@
 base:
-  apps:
-    reflector: ''
+  reflector: |
+    GitOps-Chart/resource-type: argocd-application
+    namespace: reflector
+    chart:
+      repoURL: https://emberstack.github.io/helm-charts
+      name: reflector
+      version: {{ .config.reflector.version }}
+    values: {}

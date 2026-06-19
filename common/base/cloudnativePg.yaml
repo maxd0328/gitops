@@ -1,0 +1,9 @@
+base:
+  cloudnativePg: |
+    GitOps-Chart/resource-type: argocd-application
+    namespace: cloudnative-pg
+    chart:
+      repoURL: https://cloudnative-pg.github.io/charts
+      name: cloudnative-pg
+      version: {{ .config.cloudnativePg.version }}
+    values: {}

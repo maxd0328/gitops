@@ -1,8 +1,13 @@
 base:
-  apps:
-    gitea: |
+  gitea: |
+    GitOps-Chart/resource-type: argocd-application
+    chart:
+      repoURL: https://dl.gitea.com/charts
+      name: gitea
+      version: {{ .config.gitea.version }}
+    values:
       global:
-        replicaCount: {{ .replicas }}
+        replicaCount: {{ .config.gitea.replicas }}
 
       gitea:
         config:
@@ -16,8 +21,8 @@ base:
         oauth:
           - name: Derbserv
             provider: openidConnect
-            existingSecret: devops-client-creds
-            autoDiscoverUrl: https://{{ .global.hostnames.iam }}/realms/derbserv/.well-known/openid-configuration
+            existingSecret: iam-devops-creds
+            autoDiscoverUrl: https://{{ .config.hostnames.iam }}/realms/derbserv/.well-known/openid-configuration
             scopes:
               - openid
               - profile
@@ -27,18 +32,18 @@ base:
           - name: GITEA__DATABASE__USER
             valueFrom:
               secretKeyRef:
-                name: gitea-db-user
+                name: pg-gitea-user
                 key: username
           - name: GITEA__DATABASE__PASSWD
             valueFrom:
               secretKeyRef:
-                name: gitea-db-user
+                name: pg-gitea-user
                 key: password
 
       ingress:
         enabled: true
         hosts:
-          - host: {{ .global.hostnames.devops }}
+          - host: {{ .config.hostnames.devops }}
             paths:
               - path: /
 
@@ -54,14 +59,13 @@ base:
       valkey:
         enabled: true
 
-  extras:
-    gitea-db: |
-      apiVersion: postgresql.cnpg.io/v1
-      kind: Database
-      metadata:
-        name: gitea
-      spec:
-        name: gitea
-        owner: gitea
-        cluster:
-          name: db-cluster
+  gitea-db: |
+    apiVersion: postgresql.cnpg.io/v1
+    kind: Database
+    metadata:
+      name: gitea
+    spec:
+      name: gitea
+      owner: gitea
+      cluster:
+        name: pg-cluster

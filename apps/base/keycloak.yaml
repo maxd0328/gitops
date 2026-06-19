@@ -1,36 +1,35 @@
 base:
-  extras:
-    keycloak: |
-      apiVersion: k8s.keycloak.org/v2beta1
-      kind: Keycloak
-      metadata:
-        name: keycloak
-      spec:
-        instances: {{ .replicas }}
-        db:
-          vendor: postgres
-          host: db-cluster-rw.{{ .Release.Namespace }}.svc.cluster.local
-          database: keycloak
-          usernameSecret:
-            name: keycloak-db-user
-            key: username
-          passwordSecret:
-            name: keycloak-db-user
-            key: password
-        http:
-          httpEnabled: true
-        hostname:
-          hostname: {{ .global.hostnames.iam }}
-        proxy:
-          headers: xforwarded
+  keycloak: |
+    apiVersion: k8s.keycloak.org/v2beta1
+    kind: Keycloak
+    metadata:
+      name: keycloak
+    spec:
+      instances: {{ .config.keycloak.replicas }}
+      db:
+        vendor: postgres
+        host: db-cluster-rw.{{ .Release.Namespace }}.svc.cluster.local
+        database: keycloak
+        usernameSecret:
+          name: pg-keycloak-user
+          key: username
+        passwordSecret:
+          name: pg-keycloak-user
+          key: password
+      http:
+        httpEnabled: true
+      hostname:
+        hostname: {{ .config.hostnames.iam }}
+      proxy:
+        headers: xforwarded
 
-    keycloak-db: |
-      apiVersion: postgresql.cnpg.io/v1
-      kind: Database
-      metadata:
-        name: keycloak
-      spec:
-        name: keycloak
-        owner: keycloak
-        cluster:
-          name: db-cluster
+  keycloak-db: |
+    apiVersion: postgresql.cnpg.io/v1
+    kind: Database
+    metadata:
+      name: keycloak
+    spec:
+      name: keycloak
+      owner: keycloak
+      cluster:
+        name: pg-cluster

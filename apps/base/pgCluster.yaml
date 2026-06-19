@@ -1,0 +1,51 @@
+base:
+  pgCluster: |
+    apiVersion: postgresql.cnpg.io/v1
+    kind: Cluster
+    metadata:
+      name: pg-cluster
+    spec:
+      instances: {{ .config.pgCluster.replicas }}
+      storage:
+        size: {{ .config.pgCluster.storageSize }}
+        storageClass: local-path
+      managed:
+        roles:
+          - name: keycloak
+            ensure: present
+            login: true
+            superuser: false
+            passwordSecret:
+              name: pg-keycloak-user
+          - name: gitea
+            ensure: present
+            login: true
+            superuser: false
+            passwordSecret:
+              name: pg-gitea-user
+
+  pgKeycloakUserSecret: |
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: pg-keycloak-user
+      labels:
+        cnpg.io/reload: 'true'
+      annotations:
+        secret-generator.v1.mittwald.de/autogenerate: password
+    type: kubernetes.io/basic-auth
+    data:
+      username: {{ "keycloak" | b64enc }}
+
+  pgGiteaUserSecret: |
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: pg-gitea-user
+      labels:
+        cnpg.io/reload: 'true'
+      annotations:
+        secret-generator.v1.mittwald.de/autogenerate: password
+    type: kubernetes.io/basic-auth
+    data:
+      username: {{ "gitea" | b64enc }}

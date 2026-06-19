@@ -1,5 +1,4 @@
-config:
-  gitopsTool: argo
+global:
   gitopsNamespace: argocd
   prefix: stg
   commonChart:
@@ -7,26 +6,20 @@ config:
     path: gitops/
     version: HEAD
 
-environment:
-  apps:
-    gitea:
-      chart:
-        repoURL: https://dl.gitea.com/charts
-        name: gitea
-        version: 12.6.0
-      replicas: 1
+config:
+  hostnames:
+    argocd: argocd.derbserv.hq
+    iam: iam.stg.derbserv.hq
+    devops: devops.ktg.derbserv.hq
 
-  extras:
-    keycloak:
-      replicas: 1
+  pgCluster:
+    replicas: 1
+    storageSize: 500Mi
 
-    db-cluster:
-      replicas: 1
-      storageSize: 500Mi
+  keycloak:
+    replicas: 1
+    registerArgocd: true
 
-  global:
-    argocd_oidc: true
-    hostnames:
-      argocd: argocd.derbserv.hq
-      iam: iam.stg.derbserv.hq
-      devops: devops.derbserv.hq
+  gitea:
+    version: 12.6.0
+    replicas: 1

@@ -1,0 +1,9 @@
+base:
+  keycloakOperator: |
+    GitOps-Chart/resource-type: argocd-application
+    namespace: keycloak
+    chart:
+      repoURL: https://github.com/maxd0328/charts.git
+      path: keycloak-operator/
+      version: {{ .config.keycloakOperator.version }}
+    values: {}
