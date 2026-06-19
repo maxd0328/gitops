@@ -1,4 +1,4 @@
-config:
+global:
   gitopsNamespace: argocd
   noPrefix: true
   commonChart:
@@ -6,7 +6,7 @@ config:
     path: gitops/
     version: HEAD
 
-environment:
+config:
   cloudnativePg:
     version: 0.28.3
 
