@@ -15,7 +15,7 @@ base:
           
           database:
             DB_TYPE: postgres
-            HOST: db-cluster-rw.{{ .Release.Namespace }}.svc.cluster.local
+            HOST: pg-cluster-rw.{{ .Release.Namespace }}.svc.cluster.local
             NAME: gitea
 
         oauth:

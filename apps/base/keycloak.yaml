@@ -8,7 +8,7 @@ base:
       instances: {{ .config.keycloak.replicas }}
       db:
         vendor: postgres
-        host: db-cluster-rw.{{ .Release.Namespace }}.svc.cluster.local
+        host: pg-cluster-rw.{{ .Release.Namespace }}.svc.cluster.local
         database: keycloak
         usernameSecret:
           name: pg-keycloak-user
