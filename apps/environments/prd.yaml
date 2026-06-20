@@ -23,3 +23,7 @@ config:
   gitea:
     version: 12.6.0
     replicas: 1
+
+  headlamp:
+    version: 0.43.0
+    replicas: 1

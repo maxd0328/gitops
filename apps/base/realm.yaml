@@ -8,6 +8,7 @@ base:
       keycloakCRName: keycloak
 
       placeholders:
+        {{- if .config.keycloak.registerArgocd }}
         ARGOCD_CLIENT_ID:
           secret:
             name: iam-argocd-creds
@@ -16,6 +17,7 @@ base:
           secret:
             name: iam-argocd-creds
             key: secret
+        {{- end }}
         DEVOPS_CLIENT_ID:
           secret:
             name: iam-devops-creds
@@ -24,6 +26,14 @@ base:
           secret:
             name: iam-devops-creds
             key: secret
+        HEADLAMP_CLIENT_ID:
+          secret:
+            name: iam-headlamp-creds
+            key: OIDC_CLIENT_ID
+        HEADLAMP_CLIENT_SECRET:
+          secret:
+            name: iam-headlamp-creds
+            key: OIDC_CLIENT_SECRET
 
       realm:
         realm: derbserv
@@ -196,6 +206,27 @@ base:
               - email
               - roles
               - groups
+
+          - clientId: ${HEADLAMP_CLIENT_ID}
+            secret: ${HEADLAMP_CLIENT_SECRET}
+            name: Headlamp
+            enabled: true
+
+            protocol: openid-connect
+            publicClient: false
+            standardFlowEnabled: true
+            directAccessGrantsEnabled: false
+
+            redirectUris:
+              - https://{{ .config.hostnames.headlamp }}/oidc-callback
+            webOrigins:
+              - https://{{ .config.hostnames.headlamp }}
+
+            defaultClientScopes:
+              - profile
+              - email
+              - roles
+              - groups
     
   iamArgocdCreds: |
     {{- if .config.keycloak.registerArgocd }}
@@ -236,3 +267,14 @@ base:
     type: Opaque
     data:
       key: {{ "devops" | b64enc }}
+
+  iamHeadlampCreds: |
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: iam-headlamp-creds
+      annotations:
+        secret-generator.v1.mittwald.de/autogenerate: OIDC_CLIENT_SECRET
+    type: Opaque
+    data:
+      OIDC_CLIENT_ID: {{ "headlamp" | b64enc }}

@@ -10,7 +10,7 @@ config:
   hostnames:
     argocd: argocd.derbserv.hq
     iam: iam.stg.derbserv.hq
-    devops: devops.ktg.derbserv.hq
+    devops: devops.stg.derbserv.hq
 
   pgCluster:
     replicas: 1
@@ -22,4 +22,8 @@ config:
 
   gitea:
     version: 12.6.0
+    replicas: 1
+
+  headlamp:
+    version: 0.43.0
     replicas: 1

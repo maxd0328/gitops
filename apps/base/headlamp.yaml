@@ -1,0 +1,23 @@
+base:
+  headlamp: |
+    GitOps-Chart/resource-type: argocd-application
+    chart:
+      repoURL: https://kubernetes-sigs.github.io/headlamp
+      name: headlamp
+      version: {{ .config.headlamp.version }}
+    values:
+      replicaCount: {{ .config.headlamp.replicas }}
+
+      config:
+        oidc:
+          secret:
+            create: false
+          externalSecret:
+            enabled: true
+            name: 
+
+      env:
+        - name: OIDC_ISSUER_URL
+          value: https://{{ .config.hostnames.iam }}/realms/derbserv
+        - name: OIDC_SCOPES
+          value: email,profile
