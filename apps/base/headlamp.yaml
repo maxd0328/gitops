@@ -14,7 +14,7 @@ base:
             create: false
           externalSecret:
             enabled: true
-            name: 
+            name: iam-headlamp-creds
 
       env:
         - name: OIDC_ISSUER_URL
