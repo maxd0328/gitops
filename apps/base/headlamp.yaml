@@ -21,6 +21,8 @@ base:
           value: https://{{ .config.hostnames.iam }}/realms/derbserv
         - name: OIDC_SCOPES
           value: email,profile
+        - name: OIDC_SKIP_TLS_VERIFY
+          value: 'true'
 
       ingress:
         enabled: true
