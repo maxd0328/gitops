@@ -11,6 +11,7 @@ config:
     argocd: argocd.derbserv.hq
     iam: iam.stg.derbserv.hq
     devops: devops.stg.derbserv.hq
+    headlamp: headlamp.derbserv.hq
 
   pgCluster:
     replicas: 1

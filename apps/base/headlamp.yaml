@@ -21,3 +21,11 @@ base:
           value: https://{{ .config.hostnames.iam }}/realms/derbserv
         - name: OIDC_SCOPES
           value: email,profile
+
+      ingress:
+        enabled: true
+        hosts:
+          - host: {{ .config.hostnames.headlamp }}
+            paths:
+              - path: /
+                type: ImplementationSpecific
